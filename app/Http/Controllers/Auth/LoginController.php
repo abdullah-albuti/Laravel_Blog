@@ -39,6 +39,15 @@ class LoginController extends Controller
      *
      * @return void
      */
+public  function username()
+{
+    $login =  request()->input("login");
+    $fieldtype = filter_var($login,FILTER_VALIDATE_EMAIL)? 'email':'name';
+    request()->merge([$fieldtype => $login]);
+    return $fieldtype ;
+}
+
+
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
@@ -52,24 +61,27 @@ class LoginController extends Controller
     public function  handleProviderCallback(){
 
         $user =  Socialite::driver('facebook')->stateless()->user();
+        $users       =   User::where(['email' => $user->getEmail()])->first();
 
-        $result = User::create([
+        if($users){
+            Auth::login($users);
+            return redirect()->route('home');
+        }else {
+            $users = User::create([
+                'name' => $user->name,
+                'email' => $user->email,
+                'password' => $user->token,
+                'national_id' => 0,
+                'gender' => 0,
+            ]);
 
-            'name' => $user->name,
-            'email' => $user->email ,
-            'password' => $user->token,
-            'national_id' =>  $user->id,
-            'gender' => $user->expiresIn,
 
-        ]);
-
-
-        if (!$result)
-        {
-            return redirect()->back();
+            if (!$users) {
+                return redirect()->back();
+            }
+            Auth::login($users);
+            return redirect()->route('After');
         }
-        return 'GOOOD'; //Or redirect to dashboard
-
 
 //
 //        $data = [""=>$user->name,""=>$user->email,""=>$user->token];

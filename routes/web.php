@@ -21,9 +21,12 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 Route::get('/','App\Http\Controllers\Controller@welcome')->name('welcome');
-Route::get('/home','App\Http\Controllers\HomeController@home')->name('home');
-Route::get('/about','App\Http\Controllers\HomeController@about')->name('about');
+Route::get('/home','App\Http\Controllers\HomeController@home')->name('home')->middleware('Check');;
+Route::get('/about','App\Http\Controllers\HomeController@about')->name('about')->middleware('Check');;
 
+Route::get('/updateuser','App\Http\Controllers\HomeController@After')->name('After');
+
+Route::post('getID', 'App\Http\Controllers\HomeController@getID');;
 
 
 Route::post('someurl', 'App\Http\Controllers\HomeController@someMethod');

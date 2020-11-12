@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use phpDocumentor\Reflection\DocBlock\Tags\Uses;
+use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     /**
@@ -24,6 +26,12 @@ class HomeController extends Controller
      */
 
 
+    public function After()
+    {
+        return view('UpDateUser');
+    }
+
+
 
     public function home()
     {
@@ -36,6 +44,15 @@ class HomeController extends Controller
         return view('about');
     }
 
+
+    public function getID(Request $request)
+    {
+
+         $userid = Auth::id();
+      DB::table('users')->where('id', $userid)->update(['gender' =>  $request->input('gender')]);
+      DB::table('users')->where('id', $userid)->update(['national_id'=> $request->input('national_id')]);
+        return  view('home');
+    }
 
 //2
     public function someMethod(Request $request)
