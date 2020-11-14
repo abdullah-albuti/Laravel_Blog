@@ -15,7 +15,10 @@ class CreateFlightsTable extends Migration
     {
         Schema::create('flights', function (Blueprint $table) {
             $table->id();
-            $table->string('ELSE1');
+            $table->string('title');
+            $table->string('body');
+            $table->string('commint');
+            $table->string('user_id');
             $table->timestamps();
         });
     }

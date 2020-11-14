@@ -16,10 +16,11 @@
                     <label for="female">Female</label>
                     <input type="radio" name="gender" id="female" value="female">
                 </fieldset>
+        </div>
         <hr>
         <input type="submit">
         <hr>
-
+    </form>
 
 
 @endsection

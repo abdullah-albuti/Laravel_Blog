@@ -43,7 +43,17 @@
 
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('gender') }}</label>
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('gender') is-invalid @enderror" name="gender" value="{{ old('gender') }}" required autocomplete="gender" autofocus>
+
+
+                                <div data-role="main" class="ui-content">
+                                    <fieldset  data-role="controlgroup">
+                                        <legend>Choose your gender:</legend>
+                                        <label for="male">Male</label>
+                                        <input type="radio" name="gender" id="male" value="male"    value="{{ old('gender') }}" required autocomplete="gender" autofocus >
+                                        <label for="female">Female</label>
+                                        <input type="radio" name="gender" id="female" value="female"   value="{{ old('gender') }}" required autocomplete="gender" autofocus>
+                                    </fieldset>
+                                </div>
 
                                 @error('gender')
                                 <span class="invalid-feedback" role="alert">
@@ -51,6 +61,7 @@
                                     </span>
                                 @enderror
                             </div>
+
                         </div>
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
