@@ -27,9 +27,8 @@ Route::get('/new','App\Http\Controllers\HomeController@new')->name('new');
 
 
 //test//
-Route::get('ajax-form-submit', 'App\Http\Controllers\HomeController@index');
-Route::post('save-form', 'App\Http\Controllers\HomeController@store');
-
+Route::get('ajaxRequest', 'App\Http\Controllers\HomeController@ajaxRequest');
+Route::post('ajaxRequest', 'App\Http\Controllers\HomeController@ajaxRequestPost')->name('ajaxRequest.post');
 //
 
 

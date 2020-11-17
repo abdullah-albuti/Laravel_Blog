@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Flight;
 use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\DocBlock\Tags\Uses;
 use Illuminate\Support\Facades\Auth;
+use Log;
 class HomeController extends Controller
 {
     /**
@@ -33,11 +35,13 @@ class HomeController extends Controller
 
 
     public function new()
-    {
+    { //'gender'
 
-        $posts = DB::table('flights')->orderBy('id', 'DESC')->get();
-        $Flight =  DB::table('flights')->get();
-        return  view('layouts.news',compact('Flight','posts'));
+      //        $posts = DB::table('flights')->orderBy('id', 'DESC')->get();
+
+         $Flight =  DB::table('flights')->get();
+
+        return  view('layouts.news',compact('Flight'));
 
     }
 
@@ -48,8 +52,10 @@ class HomeController extends Controller
 
     public function home()
     {
+        $usergender = Auth::user()->gender;
 
-        $posts = DB::table('flights')->orderBy('id', 'DESC')->get();
+        $posts= DB::select("SELECT * from users , flights where user_id = users.name and '$usergender' = gender  order by flights.id DESC");
+
         $Flight =  DB::table('flights')->get();
         return  view('home',compact('Flight','posts'));
 
@@ -106,35 +112,25 @@ class HomeController extends Controller
         return  view('home');
 }
 //test
-    public function index()
+    public function ajaxRequest()
+
     {
         return view('form');
     }
 
-    public function store(Request $request)
+    public function ajaxRequestPost(Request $request)
+
     {
-        request()->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'mobile_number' => 'required|unique:users'
-        ]);
+        DB::insert("insert into flights (id,title,body,commint,user_id) VALUES(?,?,?,?,?)", [
+            $request->id,
+            $request->title,
+            $request->body,
+            0,
+            $request->user()->name,
 
-        $data = $request->all();
-        $check = Contact::insert($data);
-        $arr = array('msg' => 'Something goes to wrong. Please try again lator', 'status' => false);
-        if($check){
-            $arr = array('msg' => 'Successfully submit form using ajax', 'status' => true);
-        }
-        return Response()->json($arr);
-
+    ]);
+       return  'DONE';
     }
-
-
-
-
-
-
-
 //    public function show(){
 //
 ////        $Flight = \app\Models\Flight::all();
