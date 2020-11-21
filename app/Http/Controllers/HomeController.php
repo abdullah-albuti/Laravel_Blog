@@ -40,8 +40,9 @@ class HomeController extends Controller
       //        $posts = DB::table('flights')->orderBy('id', 'DESC')->get();
 
          $Flight =  DB::table('flights')->get();
+        $Comment =  DB::table('comment')->get();
 
-        return  view('layouts.news',compact('Flight'));
+        return  view('layouts.news',compact('Flight','Comment'));
 
     }
 
@@ -53,11 +54,11 @@ class HomeController extends Controller
     public function home()
     {
         $usergender = Auth::user()->gender;
-
+        $Comment =  DB::table('comment')->get();
         $posts= DB::select("SELECT * from users , flights where user_id = users.name and '$usergender' = gender  order by flights.id DESC");
 
         $Flight =  DB::table('flights')->get();
-        return  view('home',compact('Flight','posts'));
+        return  view('home',compact('Flight','posts','Comment'));
 
     }
     public function about()
@@ -67,8 +68,9 @@ class HomeController extends Controller
 
     public function delete($id)
     {
+
         DB::table('flights')->where('id',$id)->delete();
-        return  view('home');
+        return  'Content deleted ';
     }
 
 
@@ -91,45 +93,91 @@ class HomeController extends Controller
          $userid = Auth::id();
       DB::table('users')->where('id', $userid)->update(['gender' =>  $request->input('gender')]);
       DB::table('users')->where('id', $userid)->update(['national_id'=> $request->input('national_id')]);
-
+        return view('home');
     }
 
 //2
-    public function someMethod(Request $request)
+//    public function someMethod(Request $request)
+//    {
+//        //dd($request->all());
+//   DB::insert("insert into flights (id,title,body,commint,user_id) VALUES(?,?,?,?,?)", [
+//                             null,
+//           $request->input('title'),
+//          $request->input('body'),
+//       0,
+//       $request->user()->name,
+//
+//
+//
+//
+//   ]);
+//        return  view('home');
+//    }
+
+
+    public function comment(Request $request)
     {
-        //dd($request->all());
-   DB::insert("insert into flights (id,title,body,commint,user_id) VALUES(?,?,?,?,?)", [
-                             null,
-           $request->input('title'),
-          $request->input('body'),
-       0,
-       $request->user()->name,
+        DB::insert("insert into comment (id,comment,commintelse,commintPOST,user_comment) VALUES(?,?,?,?,?)", [
+            null,
+            $request->comment1,
+            $request->POSTNU,
+            0,
+            $request->user()->name,
 
 
 
 
-   ]);
-        return  view('home');
-}
-//test
-    public function ajaxRequest()
+        ]);
 
-    {
-        return view('form');
+
+
+        return  'A comment has been posted';
     }
+   //ajax from insert
 
-    public function ajaxRequestPost(Request $request)
-
+        public function FormPost(Request $request)
     {
         DB::insert("insert into flights (id,title,body,commint,user_id) VALUES(?,?,?,?,?)", [
-            $request->id,
+            null,
             $request->title,
             $request->body,
             0,
             $request->user()->name,
 
-    ]);
-       return  'DONE';
+
+
+
+        ]);
+
+
+
+        return  'The content has been submitted';
+    }
+
+//test
+    public function ajaxRequest()
+
+    {
+        return view('home');
+    }
+
+    public function ajaxRequestPost(Request $request)
+
+    {
+
+        DB::table('flights')->where('id',$request->id )->update(['title' =>  $request->title,'body'=>$request->body]);
+
+
+
+//        DB::insert("insert into flights (id,title,body,commint,user_id) VALUES(?,?,?,?,?)", [
+//            $request->id,
+//            $request->title,
+//            $request->body,
+//            0,
+//            $request->user()->name,
+//
+//    ]);
+       return  'The content has been updated';
     }
 //    public function show(){
 //
