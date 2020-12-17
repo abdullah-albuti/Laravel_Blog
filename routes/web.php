@@ -25,10 +25,12 @@ Route::get('/home','App\Http\Controllers\HomeController@home')->name('home')->mi
 Route::get('/about','App\Http\Controllers\HomeController@about')->name('about')->middleware('Check');;
 Route::get('/new','App\Http\Controllers\HomeController@new')->name('new');
 
+
 Route::post('FormPost', 'App\Http\Controllers\HomeController@FormPost')->name('FormPost.post');
 
 Route::post('comment', 'App\Http\Controllers\HomeController@comment')->name('comment.post');
 
+Route::get('/layouts.timeline','App\Http\Controllers\HomeController@layoutstimeline')->name('layouts.timeline');
 //test//
 Route::get('ajaxRequest', 'App\Http\Controllers\HomeController@ajaxRequest');
 Route::post('ajaxRequest', 'App\Http\Controllers\HomeController@ajaxRequestPost')->name('ajaxRequest.post');
@@ -36,6 +38,11 @@ Route::post('ajaxRequest', 'App\Http\Controllers\HomeController@ajaxRequestPost'
 
 Route::get('/updateuser','App\Http\Controllers\HomeController@After')->name('After');
 Route::post('project/public/home/delete/{id}', 'App\Http\Controllers\HomeController@delete');
+
+//test/
+Route::post('project/public/new/delete/{id}', 'App\Http\Controllers\HomeController@delete');
+//
+
 
 Route::post('updatePost', 'App\Http\Controllers\HomeController@updatePost');
 

@@ -1,20 +1,20 @@
 
 
-<script>
+{{--<script>--}}
 
-    $.ajaxSetup({
+{{--    $.ajaxSetup({--}}
 
-        headers: {
+{{--        headers: {--}}
 
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+{{--            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
 
-        }
+{{--        }--}}
 
-    });
+{{--    });--}}
 
 
 
-</script>
+{{--</script>--}}
 
 
 
@@ -45,7 +45,7 @@
     @if($p->user_id ==  Auth::user()->name)
 
 {{--            action="{{url('updatePost') }}" method="post"--}}
-            <form id="contact-form{{$p->id}}"  >
+            <form id="contact-form{{$p->id}}"   action="javascript:void(0);" >
             @csrf
             <input hidden name="id" id="id" value="{{$p->id}}">
 {{--            <input  name="title" id="title{{$p->id}}"value="{{$p->title}}"  placeholder="edit title">--}}
@@ -59,14 +59,14 @@
                 <div class="card-header">{{ __('edit') }}</div>
 
                 <div class="card-body" >
-                    <form id="formedit{{$p->id}}" >
+                    <form id="formedit{{$p->id}}"  action="javascript:void(0);" >
 
 
                         <div class="form-group">
 
-                            <label>id:</label>
+{{--                            <label>id:</label>--}}
 
-                            <input type="text" name="idForm{{ $p->id }}" class="form-control" placeholder="id" disabled value="{{$p->id}}" required="">
+                            <input type="text" name="idForm{{ $p->id }}" hidden class="form-control" placeholder="id" disabled value="{{$p->id}}" required="">
 
                         </div>
 
@@ -101,10 +101,10 @@
 
                     </form>
 
-                    <button id="btn-submit-edit{{ $p->id }}" class="btn btn-success ">edit</button>
+                    <button id="btn-submit-edit{{ $p->id }}" class="btn btn-success sendingg">edit</button>
 
 
-                    <button class="deleteRecord" data-id="{{ $p->id }}" >Delete Post </button>
+                    <button class="deleteRecord sendingg" data-id="{{ $p->id }}" >Delete Post </button>
 
                 </div>
             </div>
@@ -138,8 +138,7 @@
 
             success:function(data){
 
-                alert(data);
-
+                $('.alert').text(data);
             }
 
         });
@@ -148,6 +147,18 @@
 
     });
 
+
+
+    // function loadDoc() {
+    //     var xhttp = new XMLHttpRequest();
+    //     xhttp.onreadystatechange = function() {
+    //         if (xhttp.readyState == 4 && xhttp.status == 200) {
+    //             document.getElementById("demo").innerHTML = xhttp.responseText;
+    //         }
+    //     };
+    //     xhttp.open("GET", "new", true);
+    //     xhttp.send();
+    // }
 
 
 
@@ -165,14 +176,25 @@
 </script>
         @endif
 
-        <form id="form{{$p->id}}">
+        <form id="form{{$p->id}}"  action="javascript:void(0);">
             <input name="comment{{$p->id}}" type="text" placeholder="comment">
             <input name="PostNumber{{$p->id}}" value="{{$p->id}}"   hidden >
-            <button id="submitcomment{{$p->id}}" >SEND</button>
+            <button id="submitcomment{{$p->id}}" class="sendingg" >SEND</button>
         </form>
 
     </div>
 <script>
+
+
+    $.ajaxSetup({
+
+        headers: {
+
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+        }
+
+    });
 
 
 
@@ -192,6 +214,7 @@
             $.ajax({
 
                 type:'POST',
+                cache: false,
 
                 url:"{{ route('comment.post') }}",
 
@@ -199,17 +222,11 @@
 
                 success:function(data){
 
-                    alert(data);
-
+                    $('.alert').text(data);
                 }
             });
 
         });
-
-
-
-
-
 
 
 
@@ -250,25 +267,70 @@
 
 <script type="text/javascript">
 
+        $(".deleteRecord").click(function(){
 
-    $(".deleteRecord").click(function(){
-
-        var id = $(this).data("id");
-        $.ajax(
-            {
-                url: "project/public/home/delete/"+id,
-                type: 'POST',
-                data:{"id":id },
-                success: function (response)
+            var id = $(this).data("id");
+            $.ajax(
                 {
-                    alert(response);
-                },
-                error: function(xhr) {
-                    alert(xhr.responseText);
-                }
-            });
-    });
+                    url: "project/public/home/delete/"+id,
+                    type: 'POST',
+                    async: true,
+                    data:{"id":id },
+                    success:function(data){
+
+                        $('.alert').text(data);
+                    }
 
 
+                });
+        });
+
+
+
+
+
+
+
+
+//    $(".deleteRecord").click(function(){
+//
+//        var id = $(this).data("id");
+//        $.ajax(
+//            {
+//                url: "project/public/home/delete/"+id,
+//                type: 'POST',
+//                async: true,
+//                data:{"id":id },
+//                success:function(){
+//
+//                    var xhttp = new XMLHttpRequest();
+//
+//
+//
+//                    xhttp.open("get", "new", true);
+//                    xhttp.onreadystatechange  = function() {
+//                        if (xhttp.readyState == 4 && xhttp.status == 200) {
+//                            document.getElementById("demo").innerHTML = xhttp.responseText;
+//                        }
+//                    };
+//                    if (xhttp.readyState == XMLHttpRequest.DONE) {
+//                        alert(xhttp.responseText);
+//                    }
+//                    xhttp.send(null);
+//                }
+//
+//
+//            });
+//    });
+//
+//
+//
+//
+
+
+        $('.sendingg').click(function(){
+            $("#demo").load("{{route('new')}}")
+            $("#demo").load("{{route('new')}}")
+        });
 </script>
 

@@ -48,8 +48,15 @@ class HomeController extends Controller
 
 
 
+    public function layoutstimeline()
+    {
+        $usergender = Auth::user()->gender;
+        $Comment =  DB::table('comment')->get();
+        $posts= DB::select("SELECT * from users , flights where user_id = users.name and '$usergender' = gender  order by flights.id DESC");
 
-
+        $Flight =  DB::table('flights')->get();
+        return  view('layouts.timeline',compact('Flight','posts','Comment'));
+}
 
     public function home()
     {
@@ -93,7 +100,7 @@ class HomeController extends Controller
          $userid = Auth::id();
       DB::table('users')->where('id', $userid)->update(['gender' =>  $request->input('gender')]);
       DB::table('users')->where('id', $userid)->update(['national_id'=> $request->input('national_id')]);
-        return view('home');
+        return view('welcome');
     }
 
 //2

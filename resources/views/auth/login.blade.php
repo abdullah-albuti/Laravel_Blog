@@ -13,17 +13,17 @@
 
                         <div class="form-group row">
                             <label for="login" class="col-sm-4 col-form-label text-md-right">
-                                {{ __('Username or Email') }}
+                                {{ __('national_id or Email') }}
                             </label>
 
                             <div class="col-md-6">
                                 <input id="login" type="text"
-                                       class="form-control{{ $errors->has('username') || $errors->has('email') ? ' is-invalid' : '' }}"
-                                       name="login" value="{{ old('username') ?: old('email') }}" required autofocus>
+                                       class="form-control{{ $errors->has('national_id') || $errors->has('email') ? ' is-invalid' : '' }}"
+                                       name="login" value="{{ old('national_id') ?: old('email') }}" required autofocus>
 
-                                @if ($errors->has('username') || $errors->has('email'))
+                                @if ($errors->has('national_id') || $errors->has('email'))
                                     <span class="invalid-feedback">
-                <strong>{{ $errors->first('username') ?: $errors->first('email') }}</strong>
+                <strong>{{ $errors->first('national_id') ?: $errors->first('email') }}</strong>
             </span>
                                 @endif
                             </div>
@@ -47,22 +47,26 @@
                             <div class="col-md-6 offset-md-4">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
+<br>
                                     <label class="form-check-label" for="remember">
                                         {{ __('Remember Me') }}
                                     </label>
                                 </div>
                             </div>
                         </div>
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
-                                <button type="button" class="btn btn-primary">
-                                  <a href="{{route('facebook')}}">{{ __('Login facebook') }}</a>
-                                </button>
+<button>
+    <a class="fa fa-facebook" href="{{route('facebook')}}">Continue with Facebook</a>
+
+</button>
+
+
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}

@@ -4,10 +4,14 @@
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
 
     <div class="container">
-    <div class="row justify-content-center">
+        <div class="alert alert-success"   role="alert">
+
+        </div>
+
+        <div class="row justify-content-center">
 
         <div >
 
@@ -32,14 +36,15 @@
 
 
 
-                    <form >
+                    <form  action="javascript:void(0);" >
                         @csrf
-                        <label>title:</label>
-                        <input type="text"  name="titleFormInsert"  />
-                        <label>body:</label>
-                        <input type="text" name="bodyFormInsert" />
+                        <label>title:</label><br>
+                        <input type="text"  class="form-control" name="titleFormInsert"  /><br>
 
-                        <input id="FormInsert" type="submit" value="send">
+                        <label>body:</label><br>
+                      <textarea    name="bodyFormInsert"  class="form-control" ></textarea><br><br>
+
+                        <input id="FormInsert" class="sendingg" type="submit" value="send">
                     </form>
 
 <script>
@@ -56,41 +61,98 @@
 
     });
 
+    {{--$('#FormInsert').click(function(){--}}
+    {{--    $("#demo").load("{{route('new')}}")--}}
+    {{--    $("#demo").load("{{route('new')}}")--}}
+    {{--});--}}
 
 
-    $("#FormInsert").click(function(e){
+    {{--$(document).ready(function(){--}}
+    {{--    $(document).ajaxSuccess(function(){--}}
+    {{--        // $(".alert").hide();--}}
+    {{--        setTimeout(function() {--}}
+    {{--            $("#demo").load("{{route('new')}}")--}}
+    {{--        }, 5000);--}}
+    {{--    });--}}
 
 
 
-        e.preventDefault();
+
+
+    {{--});--}}
+
+    {{--$('#FormInsert').click(function(){--}}
+    {{--    $("#demo").load("{{route('new')}}")--}}
+
+    {{--    });--}}
+    {{--$('.sendingg').click(function(){--}}
+    {{--    $("#demo").load("{{route('new')}}")--}}
+
+    {{--});--}}
+
+
+    $("#FormInsert").click(function(){
+
+
 
         var title = $("input[name=titleFormInsert]").val();
 
-        var body = $("input[name=bodyFormInsert]").val();
+        var body = $("textarea[name=bodyFormInsert]").val();
 
 
+        $.ajax({type:'POST',url:"{{ route('FormPost.post') }}", data:{ title:title, body:body},
+            success: function(result){
+                $(".alert").show();
+            $('.alert').text(result);
 
-        $.ajax({
-
-            type:'POST',
-
-            url:"{{ route('FormPost.post') }}",
-
-            data:{ title:title, body:body},
-
-            success:function(data){
-
-                alert(data);
-
-            }
-
-        });
-
+            }});
 
 
     });
 
 
+
+
+
+    {{--$("#FormInsert").click(function(e){--}}
+
+
+
+    {{--    e.preventDefault();--}}
+
+    {{--    var title = $("input[name=titleFormInsert]").val();--}}
+
+    {{--    var body = $("input[name=bodyFormInsert]").val();--}}
+
+
+
+    {{--    $.ajax({--}}
+
+    {{--        type:'POST',--}}
+
+    {{--        url:"{{ route('FormPost.post') }}",--}}
+
+    {{--        data:{ title:title, body:body},--}}
+
+    {{--        success:function(){--}}
+
+    {{--            $("#FormInsert").click(function() {--}}
+    {{--                    $("#demo").load("{{route('new')}}");--}}
+
+
+    {{--                });--}}
+
+
+
+
+
+    {{--        }--}}
+
+
+
+    {{--})--}}
+
+    {{--});--}}
 
 
 </script>
@@ -127,29 +189,29 @@
 
 
                         @include('layouts.news')
+
+
 {{--                        <script>--}}
 {{--                            variable = new XMLHttpRequest();--}}
 {{--                            $(document).ready(--}}
 {{--                                setInterval(--}}
 
-{{--                                function loadDoc() {--}}
-{{--                                var xhttp = new XMLHttpRequest();--}}
-{{--                                xhttp.onreadystatechange = function() {--}}
-{{--                                    if (this.readyState == 4 && this.status == 200) {--}}
+{{--                                    function loadDoc() {--}}
+{{--                                        var xhttp = new XMLHttpRequest();--}}
+{{--                                        xhttp.onreadystatechange = function() {--}}
+{{--                                            if (this.readyState == 4 && this.status == 200) {--}}
 
-{{--                                        document.getElementById("demo").innerHTML = this.responseText--}}
+{{--                                                document.getElementById("demo").innerHTML = this.responseText--}}
+{{--                                            }--}}
+{{--                                        };--}}
+{{--                                        xhttp.open("GET", "new", true);--}}
+{{--                                        xhttp.send();--}}
+
 {{--                                    }--}}
-{{--                                };--}}
-{{--                                xhttp.open("GET", "new", true);--}}
-{{--                                xhttp.send();--}}
+{{--                                    , 5000)--}}
 
-{{--                            }--}}
-{{--                                    , 1500)--}}
-
-{{--                        );--}}
+{{--                            );--}}
 {{--                        </script>--}}
-
-
 
 
 
@@ -162,13 +224,75 @@
             <div class="card">
                 <div class="card-header">{{ __('timeline') }}</div>
 
-                <div class="card-body">
-                    @include('layouts.timeline')
+                <div id="timelinedemo" class="card-body">
+
+
+{{--                    @include('layouts.timeline')--}}
+
+
+
+                                            <script>
+                                                variable = new XMLHttpRequest();
+                                                $(document).ready(
+                                                    setInterval(
+
+                                                        function loadDoc() {
+                                                            var xhttp = new XMLHttpRequest();
+                                                            xhttp.onreadystatechange = function() {
+                                                                if (this.readyState == 4 && this.status == 200) {
+
+                                                                    document.getElementById("timelinedemo").innerHTML = this.responseText
+                                                                }
+                                                            };
+                                                            xhttp.open("GET", "layouts.timeline", true);
+                                                            xhttp.send();
+
+                                                        }
+                                                        , 2000)
+
+                                                );
+                                            </script>
+
+
+
+
+
+
+
 
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+{{--    <script type="text/javascript">--}}
+
+
+{{--        $(".deleteRecord").click(function(){--}}
+
+{{--            var id = $(this).data("id");--}}
+{{--            $.ajax(--}}
+{{--                {--}}
+{{--                    url: "project/public/home/delete/"+id,--}}
+{{--                    type: 'POST',--}}
+{{--                    async: true,--}}
+{{--                    data:{"id":id },--}}
+{{--                    success:function(data){--}}
+
+{{--                        alert(data);--}}
+{{--                    }--}}
+
+
+{{--                });--}}
+{{--        });--}}
+
+
+
+
+
+
+
+{{--    </script>--}}
 
 @endsection

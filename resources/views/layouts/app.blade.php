@@ -20,6 +20,17 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+<style>
+    *{
+        color: black;
+        font-size: medium;
+        font-family: Dubai;
+    }
+ body{
+
+     background-color: #E3E8EC;
+ }
+</style>
 </head>
 
 
@@ -43,7 +54,7 @@
 {{--</head>--}}
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light  bg-white shadow-lg">
             <div class="container">
                 @include('layouts.nav')
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
